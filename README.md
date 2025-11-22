@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
@@ -59,7 +58,7 @@
     .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,0.05);font-weight:700;color:#000}
     .copy-ok{background:rgba(0,0,0,0.45);padding:8px;border-radius:8px;position:fixed;right:18px;bottom:18px;color:#fff;display:none}
 
-    .bg-shape{position:fixed;right:-120px;top:-120px;width:420px;height:420px;border-radius:40%;filter:blur(60px);opacity:0.18;background:linear-gradient(45deg,var(--accent),var(--accent-2));transform:rotate(20deg)}
+    .bg-shape{position:fixed;right:-120px;top:-120px;width:420px;height:420px;border-radius:40%;filter:blur(60px);opacity:0.18;background:linear-gradient(45deg,var(--accent),var(--accent-2));trans[...] 
     .petals span{position:absolute;top:-10%;width:12px;height:12px;background:#f7d9e3;border-radius:70% 30% 70% 30%;opacity:0.8;animation:fall 8s linear infinite}
     @keyframes fall{0%{transform:translateY(-10%) rotate(0deg)}100%{transform:translateY(110vh) rotate(360deg)}}
     .petals span:nth-child(odd){animation-duration:10s}
@@ -87,7 +86,7 @@
 
     <section class="hero">
       <div class="hero-card">
-        <h2>Bienvenue sur 🌸{𝐿𝑒 𝒫𝒶𝓇𝒶𝒹𝒾𝓈 𝒹𝑒𝓈 𝒸𝑒𝓇𝒾𝓈𝒾𝑒𝓇𝓈}🌸</h2>
+        <h2>Bienvenue sur 🌸{𝐿𝑒 𝒫𝒶𝓇𝒶𝒹𝒾𝓈 𝒹𝑒𝓈 𝒸𝑒𝒓𝒾𝓈𝒾𝑒𝓇𝓈}🌸</h2>
         <p>Un lieu chaleureux pour se retrouver, jouer, organiser des événements et discuter de tout.</p>
 
         <div class="invite-row">
@@ -107,7 +106,7 @@
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
             <div class="emoji-box" style="width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;" aria-hidden="true">🌸</div>
             <div>
-              <strong>🌸{𝐿𝑒 𝒫𝒶𝓇𝒶𝒹𝒾𝓈 𝒹𝑒𝓈 𝒸𝑒𝓇𝒾𝓈𝒾𝑒𝓇𝓈}🌸</strong>
+              <strong>🌸{𝐿𝑒 𝒫𝒶𝓇𝒶𝒹𝒾𝓈 𝒹𝑒𝓈 𝒸𝑒𝒓𝒾𝓈𝒾𝑒𝓇𝓈}🌸</strong>
               <div class="muted">Serveur communautaire</div>
             </div>
           </div>
@@ -152,7 +151,7 @@
       const inviteInput = document.getElementById('inviteInput');
       const openInvite = document.getElementById('openInvite');
       const link = (inviteInput && inviteInput.value) || (openInvite && openInvite.href);
-      if (!link) { alert('Aucun lien d\'invitation disponible'); return; }
+      if (!link) { alert('Aucun lien d'invitation disponible'); return; }
 
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
