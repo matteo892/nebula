@@ -2,121 +2,184 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>NebulaFeed</title>
+    <title>NebulaFeed 2.0</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f1f3f4;
             margin: 0;
-            padding: 0;
+            background: #d9e8ff; /* bleu clair */
         }
 
         header {
-            background: linear-gradient(90deg, #7f00ff, #e100ff);
+            background: #003566; /* bleu foncé */
             color: white;
             padding: 15px;
+            text-align: center;
             font-size: 26px;
             font-weight: bold;
-            text-align: center;
-            letter-spacing: 1px;
         }
 
         .container {
-            width: 650px;
+            width: 700px;
             margin: 25px auto;
         }
 
-        /* Formulaire */
+        /* Auth */
+        .auth-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .auth-box input {
+            width: 95%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .auth-box button {
+            padding: 10px 20px;
+            background: #001d3d;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
         .post-form {
             background: white;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .post-form input, .post-form textarea, .post-form select {
+        .post-form input,
+        .post-form select,
+        .post-form textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
         }
 
         .post-form button {
-            background: #7f00ff;
+            background: #003566;
             color: white;
-            padding: 10px 15px;
+            padding: 10px;
             border: none;
             cursor: pointer;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 5px;
         }
 
-        /* Post */
+        /* Filtre */
+        .filter-box {
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        /* Posts */
         .post {
             background: white;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .post img {
             max-width: 100%;
             margin-top: 10px;
-            border-radius: 4px;
-        }
-
-        .title {
-            font-weight: bold;
-            font-size: 18px;
+            border-radius: 5px;
         }
 
         .category {
-            background: #e100ff33;
-            display: inline-block;
-            padding: 3px 7px;
+            padding: 4px 8px;
+            background: #00aaff44; /* bleu clair transparent */
             border-radius: 5px;
+            display: inline-block;
             margin-bottom: 10px;
+            color: #003566;
             font-size: 12px;
-            color: #700070;
-        }
-
-        .content {
-            margin-top: 5px;
         }
 
         .vote-box {
             margin-top: 10px;
             display: flex;
-            align-items: center;
             gap: 10px;
-            font-size: 20px;
+            font-size: 22px;
+            align-items: center;
         }
 
         .vote-btn {
             cursor: pointer;
-            font-size: 22px;
             user-select: none;
         }
 
-        .vote-score {
-            font-weight: bold;
+        /* COMMENTAIRES */
+        .comment-section {
+            background: #f1f6ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
         }
+
+        .comment {
+            padding: 8px;
+            background: #fff;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .comment-form input {
+            width: 90%;
+            padding: 6px;
+        }
+
+        .comment-form button {
+            padding: 6px 10px;
+            background: #001d3d;
+            color: white;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
 <body>
 
-<header>NebulaFeed</header>
+<header>NebulaFeed 2.0</header>
 
 <div class="container">
 
-    <!-- Formulaire de poste -->
-    <div class="post-form">
-        <input type="text" id="title" placeholder="Titre du post">
+    <!-- LOGIN SYSTEM -->
+    <div id="auth" class="auth-box">
+        <h3>Connexion / Inscription</h3>
 
-        <textarea id="content" placeholder="Contenu du post"></textarea>
+        <input type="text" id="username" placeholder="Nom d'utilisateur">
+        <input type="password" id="password" placeholder="Mot de passe">
+
+        <button onclick="login()">Connexion</button>
+        <button onclick="register()">Créer un compte</button>
+    </div>
+
+    <div id="welcome" class="auth-box" style="display:none;">
+        Connecté en tant que : <b id="userDisplay"></b>
+        <button onclick="logout()">Déconnexion</button>
+    </div>
+
+    <!-- Formulaire -->
+    <div id="postForm" class="post-form" style="display:none;">
+        <input type="text" id="title" placeholder="Titre du post">
+        <textarea id="content" placeholder="Contenu"></textarea>
 
         <select id="category">
             <option value="Général">Général</option>
@@ -126,10 +189,21 @@
             <option value="Art">Art</option>
         </select>
 
-        <label>Importer une image :</label>
         <input type="file" id="imageFile" accept="image/*">
 
         <button onclick="addPost()">Publier</button>
+    </div>
+
+    <!-- Filtre -->
+    <div class="filter-box">
+        <select id="filter" onchange="displayPosts()">
+            <option value="all">Toutes les catégories</option>
+            <option value="Général">Général</option>
+            <option value="Meme">Meme</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Technologie">Technologie</option>
+            <option value="Art">Art</option>
+        </select>
     </div>
 
     <div id="posts"></div>
@@ -137,60 +211,146 @@
 </div>
 
 <script>
-    function addPost() {
-        const title = document.getElementById("title").value;
-        const content = document.getElementById("content").value;
-        const category = document.getElementById("category").value;
-        const fileInput = document.getElementById("imageFile");
+/* --------------------- SYSTEME UTILISATEUR --------------------- */
 
-        if (!title || !content) {
-            alert("Titre et contenu obligatoires !");
-            return;
-        }
+let currentUser = null;
 
-        let imageURL = "";
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            imageURL = URL.createObjectURL(file); // Permet d'afficher l'image locale
-        }
+function register() {
+    let user = username.value;
+    let pass = password.value;
 
-        const postsDiv = document.getElementById("posts");
+    if (!user || !pass) return alert("Remplis tout !");
 
-        // Création du post
-        const post = document.createElement("div");
-        post.className = "post";
+    if (localStorage.getItem("user_" + user))
+        return alert("Ce nom est déjà utilisé.");
 
-        const id = Date.now(); // Un ID unique pour gérer les votes
+    localStorage.setItem("user_" + user, pass);
+    alert("Compte créé !");
+}
 
-        post.innerHTML = `
-            <div class="category">${category}</div>
-            <div class="title">${title}</div>
-            <div class="content">${content}</div>
-            ${imageURL ? `<img src="${imageURL}" alt="image du post">` : ""}
+function login() {
+    let user = username.value;
+    let pass = password.value;
 
-            <div class="vote-box">
-                <span class="vote-btn" onclick="vote(${id}, 1)">⬆️</span>
-                <span id="score-${id}" class="vote-score">0</span>
-                <span class="vote-btn" onclick="vote(${id}, -1)">⬇️</span>
-            </div>
-        `;
+    if (localStorage.getItem("user_" + user) === pass) {
+        currentUser = user;
+        updateUI();
+    } else {
+        alert("Mauvais identifiants");
+    }
+}
 
-        postsDiv.prepend(post);
+function logout() {
+    currentUser = null;
+    updateUI();
+}
 
-        // Reset
-        document.getElementById("title").value = "";
-        document.getElementById("content").value = "";
-        document.getElementById("category").value = "Général";
-        fileInput.value = "";
+function updateUI() {
+    if (currentUser) {
+        auth.style.display = "none";
+        welcome.style.display = "block";
+        userDisplay.innerText = currentUser;
+        postForm.style.display = "block";
+    } else {
+        auth.style.display = "block";
+        welcome.style.display = "none";
+        postForm.style.display = "none";
     }
 
-    // Système de vote simple
-    function vote(id, value) {
-        const scoreSpan = document.getElementById("score-" + id);
-        let score = parseInt(scoreSpan.innerText);
-        score += value;
-        scoreSpan.innerText = score;
-    }
+    displayPosts();
+}
+
+/* --------------------- POSTS --------------------- */
+
+let posts = [];
+
+function addPost() {
+    if (!currentUser) return alert("Connecte-toi !");
+
+    let file = imageFile.files[0];
+    let imgURL = file ? URL.createObjectURL(file) : "";
+
+    let post = {
+        id: Date.now(),
+        user: currentUser,
+        title: title.value,
+        content: content.value,
+        category: category.value,
+        image: imgURL,
+        votes: 0,
+        comments: []
+    };
+
+    posts.unshift(post);
+    displayPosts();
+}
+
+function vote(id, value) {
+    let post = posts.find(p => p.id === id);
+    post.votes += value;
+    displayPosts();
+}
+
+/* --------------------- COMMENTAIRES --------------------- */
+
+function addComment(id) {
+    let input = document.getElementById("comment-input-" + id);
+    let text = input.value;
+
+    if (!text) return;
+
+    let post = posts.find(p => p.id === id);
+    post.comments.push({ user: currentUser, text });
+
+    input.value = "";
+    displayPosts();
+}
+
+/* --------------------- AFFICHAGE --------------------- */
+
+function displayPosts() {
+    const filter = document.getElementById("filter").value;
+
+    postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
+
+    posts
+        .filter(p => filter === "all" || p.category === filter)
+        .forEach(p => {
+
+            let post = document.createElement("div");
+            post.className = "post";
+
+            post.innerHTML = `
+                <div class="category">${p.category}</div>
+                <h3>${p.title}</h3>
+                <i>par ${p.user}</i>
+                <p>${p.content}</p>
+                ${p.image ? `<img src="${p.image}">` : ""}
+
+                <div class="vote-box">
+                    <span class="vote-btn" onclick="vote(${p.id}, 1)">⬆️</span>
+                    <span><b>${p.votes}</b></span>
+                    <span class="vote-btn" onclick="vote(${p.id}, -1)">⬇️</span>
+                </div>
+
+                <div class="comment-section">
+                    <h4>Commentaires</h4>
+                    ${p.comments.map(c => `
+                        <div class="comment"><b>${c.user}</b> : ${c.text}</div>
+                    `).join("")}
+
+                    <div class="comment-form">
+                        <input id="comment-input-${p.id}" placeholder="Écrire un commentaire...">
+                        <button onclick="addComment(${p.id})">Envoyer</button>
+                    </div>
+                </div>
+            `;
+
+            postsDiv.append(post);
+        });
+}
+
 </script>
 
 </body>
